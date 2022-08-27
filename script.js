@@ -18,6 +18,11 @@ function tempConvertKtoF(k) {
   return f;
 }
 
+function capitalizeStr(string) {
+  string = string.charAt(0).toUpperCase() + string.slice(1);
+  return string;
+}
+
 // function testWeather() {
 //     fetch('http://api.openweathermap.org/data/2.5/weather?q=Charlotte&APPID=25c6b8239ec277d75611f85f42054af6',
 //     {mode: 'cors'})
@@ -58,17 +63,18 @@ async function test3(loc) {
 }
 // test3('Miami');
 
-async function test4(loc) {
+async function weatherReport(loc) {
   let newURL = `${baseURL1}${loc}${baseURL2}`;
   let report = {};
   try {
     const weather = await fetch(newURL, {mode: 'cors'});
     const results = await weather.json();
-    console.log(results);
+    // console.log(results);
 
     let conditions = results.weather[0].description;
+    conditions = capitalizeStr(conditions);
 
-    let temp = await results.main.temp;
+    let temp = results.main.temp;
     temp = tempConvertKtoF(temp);
 
     let humid = results.main.humidity;
@@ -80,22 +86,21 @@ async function test4(loc) {
     lowTemp = tempConvertKtoF(lowTemp);
 
     let windSpd = results.wind.speed;
+    windSpd = (windSpd * 2.2369).toFixed();
 
     report.conditions = conditions;
     report.temperature = `${temp}${degSymbol}F`;
     report.humidity = `${humid}%`;
-    report['low temperature'] = lowTemp;
-    report['high temperature'] = highTemp;
-    report.wind = `${windSpd} km/h`
+    report['low temperature'] = `${lowTemp}${degSymbol}F`;
+    report['high temperature'] = `${highTemp}${degSymbol}F`;
+    report.wind = `${windSpd} mph`
     console.log(report);
   }
   catch(err) {
-    console.log("No match found");
+    alert("No match found");
   }
 }
-test4("Charlotte");
-
 
 searchBtn.addEventListener('click', () => {
-  test4(searchbar.value);
+  weatherReport(searchbar.value);
 });
