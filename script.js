@@ -35,7 +35,7 @@ async function makeWeatherReport(loc) {
   try {
     const weather = await fetch(newURL, {mode: 'cors'});
     const results = await weather.json();
-    // console.log(results);
+    console.log(results);
 
     locationName.innerHTML = '';
     let city = results.name;
@@ -58,12 +58,7 @@ async function makeWeatherReport(loc) {
     let windSpd = results.wind.speed;
     windSpd = (windSpd * 2.2369).toFixed();
 
-    // report.conditions = conditions;
-    // report.temperature = `${temp}${degSymbol}F`;
-    // report.humidity = `${humid}%`;
-    // report['low temperature'] = `${lowTemp}${degSymbol}F`;
-    // report['high temperature'] = `${highTemp}${degSymbol}F`;
-    // report.wind = `${windSpd} mph`
+    let condStyle = results.weather[0].main;
 
     report.push(`Conditions: ${conditions}`, 
     `Temperature: ${temp}${degSymbol}F`,
@@ -74,7 +69,8 @@ async function makeWeatherReport(loc) {
 
     // console.table(report)
     postReport(report);
-    return city;
+    styleReport(condStyle, conditions);
+    // return conditions;
   }
   catch(err) {
     alert("No match found");
@@ -93,8 +89,6 @@ searchbar.addEventListener('keypress', (e) => {
 
 function postReport(rep) {
   reportSection.innerHTML = '';
-  // locationName.textContent = searchbar.value;
-  // reportSection.appendChild(locationName);
   for (let i = 0; i < rep.length; i++) {
     const entry = document.createElement('p');
     entry.textContent = rep[i];
@@ -102,21 +96,29 @@ function postReport(rep) {
   }
 }
 
-/*
-let testObj = [
-  'one: one',
-  'two: two',
-  'three: three',
-  "bestbooty: Kristie",
-]
-
-function postObj(obj) {
-  for (let i = 0; i < obj.length; i++) {
-    const entry = document.createElement('p');
-    entry.textContent = obj[i];
-    reportSection.appendChild(entry);
+function styleReport(x, y) {
+  if (x == "Clear") {
+    reportSection.style.backgroundColor = "var(--sunny)";
+    cityNameContainer.style.backgroundColor = "var(--sunny)";
+  }
+  else if (x == "Clouds") {
+    if (y == "Few clouds" || y == "Scattered clouds") {
+      reportSection.style.backgroundColor = "var(--sunny)";
+      cityNameContainer.style.backgroundColor = "var(--sunny)";
+    }
+    else if (y == "Broken clouds" || y == "Overcast clouds") {
+      reportSection.style.backgroundColor = "var(--cloudy)";
+      cityNameContainer.style.backgroundColor = "var(--cloudy)";
+    }
+  }
+  else if (x == "Rain" || x == "Thunderstorm" || x == "Drizzle" || x == "Snow") {
+    reportSection.style.backgroundColor = "var(--cloudy)";
+    cityNameContainer.style.backgroundColor = "var(--cloudy)";
+  }
+  else {
+    reportSection.style.backgroundColor = 'white';
+    cityNameContainer.style.backgroundColor = 'white';
+    reportSection.style.color = 'black';
+    cityNameContainer.style.color = 'black';
   }
 }
-
-postObj(testObj);
-*/
