@@ -2,10 +2,15 @@
 const searchbar = document.getElementById('input');
 const searchBtn = document.getElementById('search-btn');
 const degSymbol = '\u00B0';
+const reportContainer = document.getElementById('container');
+const cityNameContainer = document.getElementById('city-name')
+const locationName = document.createElement('h3');
 const reportSection = document.getElementById('report-section');
 
 let baseURL1 = `http://api.openweathermap.org/data/2.5/weather?q=`;
 let baseURL2 = '&APPID=25c6b8239ec277d75611f85f42054af6'
+
+cityNameContainer.appendChild(locationName);
 
 function tempConvertKtoC(k) {
   let c = k - 273.15;
@@ -31,6 +36,10 @@ async function makeWeatherReport(loc) {
     const weather = await fetch(newURL, {mode: 'cors'});
     const results = await weather.json();
     // console.log(results);
+
+    locationName.innerHTML = '';
+    let city = results.name;
+    locationName.textContent = city;
 
     let conditions = results.weather[0].description;
     conditions = capitalizeStr(conditions);
@@ -62,10 +71,10 @@ async function makeWeatherReport(loc) {
     `Low temp: ${lowTemp}${degSymbol}F`,
     `High temp: ${highTemp}${degSymbol}F`,
     `Wind: ${windSpd} mph`);
-    
-    console.table(report)
+
+    // console.table(report)
     postReport(report);
-    return report;
+    return city;
   }
   catch(err) {
     alert("No match found");
@@ -83,7 +92,9 @@ searchbar.addEventListener('keypress', (e) => {
 })
 
 function postReport(rep) {
-  reportSection.innerHTML = ''
+  reportSection.innerHTML = '';
+  // locationName.textContent = searchbar.value;
+  // reportSection.appendChild(locationName);
   for (let i = 0; i < rep.length; i++) {
     const entry = document.createElement('p');
     entry.textContent = rep[i];
