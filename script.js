@@ -71,7 +71,7 @@ async function makeWeatherReport(loc) {
     // console.table(report)
     postReport(report);
     styleReport(condStyle, conditions);
-    // return conditions;
+    reportIcon(condStyle, conditions);
   }
   catch(err) {
     alert("No match found");
@@ -101,29 +101,50 @@ function styleReport(x, y) {
   if (x == "Clear") {
     reportSection.style.backgroundColor = "var(--sunny)";
     cityNameContainer.style.backgroundColor = "var(--sunny)";
-    icon.src = './images/001-sun.png';
   }
   else if (x == "Clouds") {
     if (y == "Few clouds" || y == "Scattered clouds") {
       reportSection.style.backgroundColor = "var(--sunny)";
       cityNameContainer.style.backgroundColor = "var(--sunny)";
-      icon.src = './images/002-cloudy.png';
     }
     else if (y == "Broken clouds" || y == "Overcast clouds") {
       reportSection.style.backgroundColor = "var(--cloudy)";
       cityNameContainer.style.backgroundColor = "var(--cloudy)";
-      icon.src = './images/003-cloud.png';
     }
   }
   else if (x == "Rain" || x == "Thunderstorm" || x == "Drizzle" || x == "Snow") {
     reportSection.style.backgroundColor = "var(--cloudy)";
     cityNameContainer.style.backgroundColor = "var(--cloudy)";
-    icon.src = './images/004-rain.png';
   }
   else {
     reportSection.style.backgroundColor = 'white';
     cityNameContainer.style.backgroundColor = 'white';
     reportSection.style.color = 'black';
     cityNameContainer.style.color = 'black';
+  }
+}
+
+function reportIcon(x, y) {
+  if (x == "Clear") {
+    icon.src = './images/001-sun.png';
+  }
+  else if (x == "Clouds") {
+    if (y == "Few clouds" || y == "Scattered clouds") {
+      icon.src = './images/002-cloudy.png';
+    } else if (y == "Broken clouds" || y == "Overcast clouds") {
+      icon.src = './images/003-cloud.png';
+    }
+  }
+  else if (x == "Rain") {
+    icon.src = "./images/004-rain.png";
+  }
+  else if (x == "Drizzle") {
+    icon.src = "./images/008-rainy.png";
+  }
+  else if (x == "Thunderstorm") {
+    icon.src = "./images/006-storm.png";
+  }
+  else if (x == "Snow") {
+    icon.src = "./images/007-snow.png";
   }
 }

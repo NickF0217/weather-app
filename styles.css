@@ -2,6 +2,20 @@
     --sunny: #0af;
     --cloudy: #0005;
 }
+.main {
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.main h1 {
+    margin-bottom: 2px;
+    padding-bottom: 0;
+}
+
+h4 {
+    font-family: Arial, Helvetica, sans-serif;
+}
 
 .container {
     /* border: 1px solid black; */
@@ -34,4 +48,24 @@
 .icon {
     height: 80px;
     width: 80px;
+}
+
+.search {
+    margin-bottom: 20px;
+}
+
+.input {
+
+}
+
+.search-btn {
+    padding: 12px 12px;
+    font-size: 16pt;
+    color: white;
+    background-color: rgb(61, 181, 255);
+    border: none;
+}
+
+.icon-credits {
+    font-family: Arial, Helvetica, sans-serif;
 }
