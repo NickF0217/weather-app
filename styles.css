@@ -2,6 +2,9 @@
     --sunny: #0af;
     --cloudy: #0005;
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+
 .main {
 display: flex;
 flex-direction: column;
@@ -11,6 +14,11 @@ align-items: center;
 .main h1 {
     margin-bottom: 2px;
     padding-bottom: 0;
+    font-family: 'Bangers', 'Courier New', Courier, monospace;
+}
+
+.main h2 {
+    font-family: 'Courier New', Courier, monospace;
 }
 
 h4 {
@@ -38,6 +46,10 @@ h4 {
     border-radius: 0 0 20px 20px;
 }
 
+.report-section p:not(:last-child) {
+    margin-bottom: -5px;
+}
+
 .city-name {
     justify-content: center;
     align-items: center;
@@ -55,7 +67,8 @@ h4 {
 }
 
 .input {
-
+    padding: 10px 20px;
+    font-size: 16pt;
 }
 
 .search-btn {
