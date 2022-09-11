@@ -25,6 +25,18 @@ function tempConvertKtoF(k) {
   return f;
 }
 
+function tempConvertFtoC(f) {
+  let c = (f - 32)/1.8;
+  c = c.toFixed(1);
+  return c;
+}
+
+function tempConvertCtoF(c) {
+  let f = c * (9/5) + 32;
+  f = f.toFixed(1);
+  return f;
+}
+
 function capitalizeStr(string) {
   string = string.charAt(0).toUpperCase() + string.slice(1);
   return string;
