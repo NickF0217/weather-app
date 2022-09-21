@@ -13,7 +13,7 @@ let baseURL1 = `http://api.openweathermap.org/data/2.5/weather?q=`;
 let baseURL2 = '&APPID=25c6b8239ec277d75611f85f42054af6'
 
 cityNameContainer.appendChild(locationName);
-
+let report = [];
 let tempStatus = 'fahrenheit';
 
 function tempSwitch() {
@@ -26,6 +26,7 @@ function tempSwitch() {
 
 tempBtn.addEventListener('click', () => {
   tempSwitch();
+  console.log(report[1]);
 })
 
 function tempConvertKtoC(k) {
@@ -59,11 +60,12 @@ function capitalizeStr(string) {
 
 async function makeWeatherReport(loc) {
   let newURL = `${baseURL1}${loc}${baseURL2}`;
-  let report = [];
+  // let report = [];
+  report = [];
   try {
     const weather = await fetch(newURL, {mode: 'cors'});
     const results = await weather.json();
-    console.log(results);
+    //console.log(results);
 
     locationName.innerHTML = '';
     let city = results.name;
