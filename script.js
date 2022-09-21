@@ -13,10 +13,10 @@ let baseURL1 = `http://api.openweathermap.org/data/2.5/weather?q=`;
 let baseURL2 = '&APPID=25c6b8239ec277d75611f85f42054af6'
 
 cityNameContainer.appendChild(locationName);
-let report = [];
+let report = {};
 let tempStatus = 'fahrenheit';
 
-function tempSwitch() {
+function tempStatSwitch() {
   if (tempStatus === 'fahrenheit') {
     tempStatus = 'celsius';
   } else {
@@ -24,9 +24,18 @@ function tempSwitch() {
   }
 }
 
+function changeTemp() {
+  if (tempStatus === 'fahrenheit') {
+    report.temperature = tempConvertFtoC(report.temperature);
+  } else {
+    report.temperature = tempConvertCtoF(report.temperature);
+  }
+}
+
 tempBtn.addEventListener('click', () => {
-  tempSwitch();
-  console.log(report[1]);
+  changeTemp();
+  tempStatSwitch();
+  console.log(report.temperature);
 })
 
 function tempConvertKtoC(k) {
@@ -61,7 +70,8 @@ function capitalizeStr(string) {
 async function makeWeatherReport(loc) {
   let newURL = `${baseURL1}${loc}${baseURL2}`;
   // let report = [];
-  report = [];
+  report = {conditions: null, temperature: null, humidity: null, 
+  'low temp': null, 'high temp': null, wind: null};
   try {
     const weather = await fetch(newURL, {mode: 'cors'});
     const results = await weather.json();
@@ -90,12 +100,13 @@ async function makeWeatherReport(loc) {
 
     let condStyle = results.weather[0].main;
 
-    report.push(`Conditions: ${conditions}`, 
-    `Temperature: ${temp}${degSymbol}F`,
-    `Humidity: ${humid}%`,
-    `Low temp: ${lowTemp}${degSymbol}F`,
-    `High temp: ${highTemp}${degSymbol}F`,
-    `Wind: ${windSpd} mph`);
+    report.conditions = conditions;
+    // report.temperature = `${temp}${degSymbol}F`;
+    report.temperature = temp;
+    report.humidity = `${humid}%`;
+    report['low temp'] = `${lowTemp}${degSymbol}F`;
+    report['high temp'] = `${highTemp}${degSymbol}F`;
+    report.wind = windSpd;
 
     // console.table(report)
     postReport(report);
