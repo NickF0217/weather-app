@@ -3,15 +3,30 @@ const searchbar = document.getElementById('input');
 const searchBtn = document.getElementById('search-btn');
 const degSymbol = '\u00B0';
 const reportContainer = document.getElementById('container');
-const cityNameContainer = document.getElementById('city-name')
+const cityNameContainer = document.getElementById('city-name');
 const locationName = document.createElement('h3');
 const reportSection = document.getElementById('report-section');
 const icon = document.getElementById('icon');
+const tempBtn = document.getElementById('temp-change');
 
 let baseURL1 = `http://api.openweathermap.org/data/2.5/weather?q=`;
 let baseURL2 = '&APPID=25c6b8239ec277d75611f85f42054af6'
 
 cityNameContainer.appendChild(locationName);
+
+let tempStatus = 'fahrenheit';
+
+function tempSwitch() {
+  if (tempStatus === 'fahrenheit') {
+    tempStatus = 'celsius';
+  } else {
+    tempStatus = 'fahrenheit';
+  }
+}
+
+tempBtn.addEventListener('click', () => {
+  tempSwitch();
+})
 
 function tempConvertKtoC(k) {
   let c = k - 273.15;
