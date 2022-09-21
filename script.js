@@ -15,6 +15,7 @@ let baseURL2 = '&APPID=25c6b8239ec277d75611f85f42054af6'
 cityNameContainer.appendChild(locationName);
 let report = {};
 let tempStatus = 'fahrenheit';
+let rawTemp;
 
 function tempStatSwitch() {
   if (tempStatus === 'fahrenheit') {
@@ -32,8 +33,16 @@ function changeTemp() {
   }
 }
 
+function changeTemp2() {
+  if (tempStatus === 'fahrenheit') {
+    report.temperature = `${tempConvertKtoC(rawTemp)}${degSymbol}C`;
+  } else {
+    report.temperature = `${tempConvertKtoF(rawTemp)}${degSymbol}F`;
+  }
+}
+
 tempBtn.addEventListener('click', () => {
-  changeTemp();
+  changeTemp2();
   tempStatSwitch();
   console.log(report.temperature);
 })
@@ -84,6 +93,7 @@ async function makeWeatherReport(loc) {
     let conditions = results.weather[0].description;
     conditions = capitalizeStr(conditions);
 
+    rawTemp = results.main.temp;
     let temp = results.main.temp;
     temp = tempConvertKtoF(temp);
 
@@ -101,8 +111,8 @@ async function makeWeatherReport(loc) {
     let condStyle = results.weather[0].main;
 
     report.conditions = conditions;
-    // report.temperature = `${temp}${degSymbol}F`;
-    report.temperature = temp;
+    report.temperature = `${temp}${degSymbol}F`;
+    // report.temperature = temp;
     report.humidity = `${humid}%`;
     report['low temp'] = `${lowTemp}${degSymbol}F`;
     report['high temp'] = `${highTemp}${degSymbol}F`;
