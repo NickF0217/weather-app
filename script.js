@@ -13,7 +13,7 @@ let baseURL1 = `http://api.openweathermap.org/data/2.5/weather?q=`;
 let baseURL2 = '&APPID=25c6b8239ec277d75611f85f42054af6'
 
 cityNameContainer.appendChild(locationName);
-let report = {};
+let report = [];
 let tempStatus = 'fahrenheit';
 let rawTemp;
 
@@ -36,6 +36,7 @@ function changeTemp() {
 tempBtn.addEventListener('click', () => {
   changeTemp();
   tempStatSwitch();
+  makeWeatherReport(searchbar.value)
   console.log(report.temperature);
 })
 
@@ -70,9 +71,9 @@ function capitalizeStr(string) {
 
 async function makeWeatherReport(loc) {
   let newURL = `${baseURL1}${loc}${baseURL2}`;
-  // let report = [];
-  report = {conditions: null, temperature: null, humidity: null, 
-  'low temp': null, 'high temp': null, wind: null};
+  report = [];
+  // report = {conditions: null, temperature: null, humidity: null, 
+  // 'low temp': null, 'high temp': null, wind: null};
   try {
     const weather = await fetch(newURL, {mode: 'cors'});
     const results = await weather.json();
@@ -86,29 +87,42 @@ async function makeWeatherReport(loc) {
     conditions = capitalizeStr(conditions);
 
     rawTemp = results.main.temp;
-    let temp = results.main.temp;
-    temp = tempConvertKtoF(temp);
+    let temp;
+    if (tempStatus === 'fahrenheit') {
+      temp = `${tempConvertKtoF(rawTemp)}${degSymbol}F`;
+    } else {
+      temp = `${tempConvertKtoC(rawTemp)}${degSymbol}C`;
+    } 
 
     let humid = results.main.humidity;
 
-    let highTemp = results.main.temp_max;
-    highTemp = tempConvertKtoF(highTemp);
+    let highTempRaw = results.main.temp_max;
+    let highTemp;
+    if (tempStatus === 'fahrenheit') {
+      highTemp = `${tempConvertKtoF(highTempRaw)}${degSymbol}F`;
+    } else {
+      highTemp = `${tempConvertKtoC(highTempRaw)}${degSymbol}C`;
+    } 
 
-    let lowTemp = results.main.temp_min;
-    lowTemp = tempConvertKtoF(lowTemp);
+    let lowTempRaw = results.main.temp_min;
+    let lowTemp;
+    if (tempStatus === 'fahrenheit') {
+      lowTemp = `${tempConvertKtoF(lowTempRaw)}${degSymbol}F`;
+    } else {
+      lowTemp = `${tempConvertKtoC(lowTempRaw)}${degSymbol}C`;
+    } 
 
     let windSpd = results.wind.speed;
     windSpd = (windSpd * 2.2369).toFixed();
 
     let condStyle = results.weather[0].main;
       
-    report.conditions = conditions;
-    report.temperature = `${temp}${degSymbol}F`;
-    // report.temperature = temp;
-    report.humidity = `${humid}%`;
-    report['low temp'] = `${lowTemp}${degSymbol}F`;
-    report['high temp'] = `${highTemp}${degSymbol}F`;
-    report.wind = windSpd;
+    report.push(`Conditions: ${conditions}`, 
+    `Temperature: ${temp}`,
+    `Humidity: ${humid}%`,
+    `Low: ${lowTemp}`,
+    `High: ${highTemp}`,
+    `Wind: ${windSpd} mph`);
 
     // console.table(report)
     postReport(report);
@@ -132,28 +146,11 @@ searchbar.addEventListener('keypress', (e) => {
 
 function postReport(rep) {
   reportSection.innerHTML = '';
-  // for (let i = 0; i < rep.length; i++) {
-    // const entry = document.createElement('p');
-    // entry.textContent = rep[i];
-    // reportSection.appendChild(entry);
-  // }
-
- /* reportSection.textContent = `${rep.conditions}\r\n`+
-  `${rep.temperature}`;*/
-  let repArr = [
-    `${rep.conditions}, 
-    ${rep.temperature}, 
-    ${rep.humidity}, 
-    High: ${rep['high temp']}, 
-    Low: ${rep['low temp']},
-    Wind: ${rep.wind} mph`
-  ]
-  for (let i = 0; i < repArr.length; i++) {
+  for (let i = 0; i < rep.length; i++) {
     const entry = document.createElement('p');
-    entry.textContent = repArr[i];
+    entry.textContent = rep[i];
     reportSection.appendChild(entry);
   }
-  // console.log(rep);
 }
 
 function styleReport(x, y) {
