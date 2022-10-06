@@ -27,14 +27,6 @@ function tempStatSwitch() {
 
 function changeTemp() {
   if (tempStatus === 'fahrenheit') {
-    report.temperature = tempConvertFtoC(report.temperature);
-  } else {
-    report.temperature = tempConvertCtoF(report.temperature);
-  }
-}
-
-function changeTemp2() {
-  if (tempStatus === 'fahrenheit') {
     report.temperature = `${tempConvertKtoC(rawTemp)}${degSymbol}C`;
   } else {
     report.temperature = `${tempConvertKtoF(rawTemp)}${degSymbol}F`;
@@ -42,7 +34,7 @@ function changeTemp2() {
 }
 
 tempBtn.addEventListener('click', () => {
-  changeTemp2();
+  changeTemp();
   tempStatSwitch();
   console.log(report.temperature);
 })
@@ -109,7 +101,7 @@ async function makeWeatherReport(loc) {
     windSpd = (windSpd * 2.2369).toFixed();
 
     let condStyle = results.weather[0].main;
-
+      
     report.conditions = conditions;
     report.temperature = `${temp}${degSymbol}F`;
     // report.temperature = temp;
@@ -140,11 +132,28 @@ searchbar.addEventListener('keypress', (e) => {
 
 function postReport(rep) {
   reportSection.innerHTML = '';
-  for (let i = 0; i < rep.length; i++) {
+  // for (let i = 0; i < rep.length; i++) {
+    // const entry = document.createElement('p');
+    // entry.textContent = rep[i];
+    // reportSection.appendChild(entry);
+  // }
+
+ /* reportSection.textContent = `${rep.conditions}\r\n`+
+  `${rep.temperature}`;*/
+  let repArr = [
+    `${rep.conditions}, 
+    ${rep.temperature}, 
+    ${rep.humidity}, 
+    High: ${rep['high temp']}, 
+    Low: ${rep['low temp']},
+    Wind: ${rep.wind} mph`
+  ]
+  for (let i = 0; i < repArr.length; i++) {
     const entry = document.createElement('p');
-    entry.textContent = rep[i];
+    entry.textContent = repArr[i];
     reportSection.appendChild(entry);
   }
+  // console.log(rep);
 }
 
 function styleReport(x, y) {
