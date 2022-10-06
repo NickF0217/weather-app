@@ -37,7 +37,6 @@ tempBtn.addEventListener('click', () => {
   changeTemp();
   tempStatSwitch();
   makeWeatherReport(searchbar.value)
-  console.log(report.temperature);
 })
 
 function tempConvertKtoC(k) {
@@ -171,10 +170,10 @@ function styleReport(x, y) {
     cityNameContainer.style.backgroundColor = "var(--cloudy)";
   }
   else {
-    reportSection.style.backgroundColor = 'white';
-    cityNameContainer.style.backgroundColor = 'white';
-    reportSection.style.color = 'black';
-    cityNameContainer.style.color = 'black';
+    reportSection.style.backgroundColor = 'var(--cloudy)';
+    cityNameContainer.style.backgroundColor = 'var(--cloudy)';
+    reportSection.style.color = 'white';
+    cityNameContainer.style.color = 'white';
   }
 }
 
@@ -202,6 +201,9 @@ function reportIcon(x, y) {
     icon.src = "./images/007-snow.png";
   }
   else if (x == "Mist") {
-    icon.src = "./images/raining.png"
+    icon.src = "./images/raining.png";
+  }
+  else {
+    icon.src = "./images/weather.png";
   }
 }
