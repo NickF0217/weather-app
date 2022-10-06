@@ -73,6 +73,9 @@ h4 {
 .input {
     padding: 10px 20px;
     font-size: 16pt;
+    width: 290px;
+    border: 1px solid silver;
+    border-radius: 15px;
 }
 
 .search-btn {
@@ -81,6 +84,10 @@ h4 {
     color: white;
     background-color: rgb(61, 181, 255);
     border: none;
+    border-radius: 15px;
+}
+.search-btn:hover {
+    background-color: rgb(61, 201, 255);
 }
 
 .icon-credits {
@@ -90,4 +97,16 @@ h4 {
 .disclaimer {
     position: relative;
     bottom: 5px;
+}
+
+.temp-change {
+    padding: 12px 12px;
+    font-size: 16pt;
+    color: white;
+    background-color: rgb(54, 175, 40);
+    border: none;
+    border-radius: 15px;
+}
+.temp-change:hover {
+    background-color: rgb(54, 205, 40);
 }

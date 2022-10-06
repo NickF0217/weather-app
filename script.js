@@ -52,17 +52,17 @@ function tempConvertKtoF(k) {
   return f;
 }
 
-function tempConvertFtoC(f) {
-  let c = (f - 32)/1.8;
-  c = c.toFixed(1);
-  return c;
-}
+// function tempConvertFtoC(f) {
+//   let c = (f - 32)/1.8;
+//   c = c.toFixed(1);
+//   return c;
+// }
 
-function tempConvertCtoF(c) {
-  let f = c * (9/5) + 32;
-  f = f.toFixed(1);
-  return f;
-}
+// function tempConvertCtoF(c) {
+//   let f = c * (9/5) + 32;
+//   f = f.toFixed(1);
+//   return f;
+// }
 
 function capitalizeStr(string) {
   string = string.charAt(0).toUpperCase() + string.slice(1);
@@ -72,8 +72,6 @@ function capitalizeStr(string) {
 async function makeWeatherReport(loc) {
   let newURL = `${baseURL1}${loc}${baseURL2}`;
   report = [];
-  // report = {conditions: null, temperature: null, humidity: null, 
-  // 'low temp': null, 'high temp': null, wind: null};
   try {
     const weather = await fetch(newURL, {mode: 'cors'});
     const results = await weather.json();
