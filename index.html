@@ -10,21 +10,22 @@
 </head>
 <body>
     <div class="main" id="main">
-        <h1>Odin's Weather</h1>
-        <h2>Search a location to see the current weather conditions</h2>
+        <div class="head">
+            <h1>Odin's Weather</h1>
+            <h2>Search a location to see the current weather conditions</h2>
+        </div>
         <div class="search" id="search">
             <input type="text" placeholder="Enter city name or postal code" id="input" class="input">
             <button class="search-btn" id="search-btn">Search</button>
             <button class="temp-change" id="temp-change">&#176F/&#176C</button>
+            <button class="search-btn" id="five-day">Five day</button>
         </div>
         <div id="container" class="container">
             <div class="city-name" id="city-name">
                 <img src="./images/weather.png" alt="weather icon" class="icon" id="icon">
-
             </div>
-            <div class="report-section" id="report-section">
-
-            </div>
+            <div class="report-section" id="report-section"></div>
+        </div>
         </div>
     </div>
     <div class="disclaimer">

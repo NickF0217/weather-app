@@ -74,7 +74,7 @@ async function makeWeatherReport(loc) {
   try {
     const weather = await fetch(newURL, {mode: 'cors'});
     const results = await weather.json();
-    //console.log(results);
+    console.log(results);
 
     locationName.innerHTML = '';
     let city = results.name;
@@ -133,11 +133,13 @@ async function makeWeatherReport(loc) {
 
 searchBtn.addEventListener('click', () => {
   makeWeatherReport(searchbar.value);
+  // geoCode().then(() => {makeFiveDayReport()});
 });
 
 searchbar.addEventListener('keypress', (e) => {
   if (e.key === 'Enter') {
   makeWeatherReport(searchbar.value);
+  // geoCode().then(() => {makeFiveDayReport()});
   }
 })
 
@@ -207,3 +209,42 @@ function reportIcon(x, y) {
     icon.src = "./images/weather.png";
   }
 }
+
+
+let latitude;
+let longitude;
+
+async function makeFiveDayReport() {
+  let fiveDayURL = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&appid=25c6b8239ec277d75611f85f42054af6`;
+
+  const fiveDay = await fetch(fiveDayURL, {mode: 'cors'});
+  const results = await fiveDay.json();
+  console.log(results);
+}
+
+async function geoCode() {
+  let geoURL = `http://api.openweathermap.org/geo/1.0/direct?q=`+searchbar.value+`&limit=5&appid=25c6b8239ec277d75611f85f42054af6`;
+  
+  const latLon = await fetch(geoURL, {mode: 'cors'});
+  const results = await latLon.json();
+  // console.log(results);
+  latitude = results[0].lat;
+  longitude = results[0].lon;
+  // console.log(latitude, longitude);
+  // return latitude, longitude;
+}
+
+
+const fiveDayBtn = document.getElementById('five-day');
+fiveDayBtn.addEventListener('click', () => {
+  geoCode().then(() => {makeFiveDayReport()});
+})
+
+/*
+Geocoding call:
+`http://api.openweathermap.org/geo/1.0/direct?q=<LOCATION>&limit=5&appid=25c6b8239ec277d75611f85f42054af6`
+
+One call by call:
+`https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={part}&appid=25c6b8239ec277d75611f85f42054af6`
+
+*/
