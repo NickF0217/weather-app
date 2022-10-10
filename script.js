@@ -8,12 +8,15 @@ const locationName = document.createElement('h3');
 const reportSection = document.getElementById('report-section');
 const icon = document.getElementById('icon');
 const tempBtn = document.getElementById('temp-change');
+const fiveDayContainer = document.getElementById('fd-container');
+const fiveDayTests = document.getElementsByClassName('test5d');
 
 let baseURL1 = `http://api.openweathermap.org/data/2.5/weather?q=`;
 let baseURL2 = '&APPID=25c6b8239ec277d75611f85f42054af6'
 
 cityNameContainer.appendChild(locationName);
 let report = [];
+let fiveDayReport = [];
 let tempStatus = 'fahrenheit';
 let rawTemp;
 
@@ -220,10 +223,11 @@ async function makeFiveDayReport() {
   const fiveDay = await fetch(fiveDayURL, {mode: 'cors'});
   const results = await fiveDay.json();
   console.log(results);
+  // postFiveDay(results);
 }
 
 async function geoCode() {
-  let geoURL = `http://api.openweathermap.org/geo/1.0/direct?q=`+searchbar.value+`&limit=5&appid=25c6b8239ec277d75611f85f42054af6`;
+  let geoURL = `http://api.openweathermap.org/geo/1.0/direct?q=${searchbar.value}&limit=5&appid=25c6b8239ec277d75611f85f42054af6`;
   
   const latLon = await fetch(geoURL, {mode: 'cors'});
   const results = await latLon.json();
@@ -234,10 +238,23 @@ async function geoCode() {
   // return latitude, longitude;
 }
 
+function fiveDayInfo(rep) {
+  
+}
+
+function postFiveDay(rep) {
+  for (let i = 0; i < 5; i++) {
+    let dayEntry = document.createElement('div');
+    dayEntry.textContent = `Conditions: ${rep.daily[1].weather[0].description},
+     high temp: ${rep.daily[1].temp.max}, 
+     low temp: ${rep.daily[1].temp.min}`;
+    fiveDayContainer.appendChild(dayEntry);
+  }
+}
 
 const fiveDayBtn = document.getElementById('five-day');
 fiveDayBtn.addEventListener('click', () => {
-  geoCode().then(() => {makeFiveDayReport()});
+  geoCode().then(() => makeFiveDayReport());
 })
 
 /*
