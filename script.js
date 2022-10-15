@@ -128,6 +128,8 @@ async function makeWeatherReport(loc) {
     postReport(report);
     styleReport(condStyle, conditions);
     reportIcon(condStyle, conditions);
+    await geoCode();
+    makeFiveDayReport();
   }
   catch(err) {
     alert("No match found");
@@ -224,6 +226,7 @@ async function makeFiveDayReport() {
   const results = await fiveDay.json();
   console.log(results);
   // postFiveDay(results);
+  fiveDayInfo(results);
 }
 
 async function geoCode() {
@@ -239,15 +242,43 @@ async function geoCode() {
 }
 
 function fiveDayInfo(rep) {
-  
+  let day2 = {
+    day: "Tomorrow",
+    conditions: `${rep.daily[1].weather[0].description}`,
+    "High temp": `${rep.daily[1].temp.max}`,
+    "Low temp": `${rep.daily[1].temp.max}`
+  }
+
+  let day3 = {
+    day: "Day 3",
+    conditions: `${rep.daily[2].weather[0].description}`,
+    "High temp": `${rep.daily[2].temp.max}`,
+    "Low temp": `${rep.daily[2].temp.max}`
+  }
+
+  let day4 = {
+    day: "Day 4",
+    conditions: `${rep.daily[3].weather[0].description}`,
+    "High temp": `${rep.daily[3].temp.max}`,
+    "Low temp": `${rep.daily[3].temp.max}`
+  }
+  let day5 = {
+    day: "Day 5",
+    conditions: `${rep.daily[4].weather[0].description}`,
+    "High temp": `${rep.daily[4].temp.max}`,
+    "Low temp": `${rep.daily[4].temp.max}`
+  }
+  // console.log(day2, day3, day4, day5);
+  fiveDayReport.push(day2, day3, day4, day5);
+  // console.log(fiveDayReport);
+  postFiveDay();
 }
 
-function postFiveDay(rep) {
-  for (let i = 0; i < 5; i++) {
+function postFiveDay() {
+  fiveDayContainer.innerHTML = "";
+  for (let i = 0; i < 4; i++) {
     let dayEntry = document.createElement('div');
-    dayEntry.textContent = `Conditions: ${rep.daily[1].weather[0].description},
-     high temp: ${rep.daily[1].temp.max}, 
-     low temp: ${rep.daily[1].temp.min}`;
+    dayEntry.textContent = fiveDayReport[i];
     fiveDayContainer.appendChild(dayEntry);
   }
 }
@@ -264,4 +295,5 @@ Geocoding call:
 One call by call:
 `https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={part}&appid=25c6b8239ec277d75611f85f42054af6`
 
+Notes: posting the five day report in object form isnt working. Search a city to see.
 */
