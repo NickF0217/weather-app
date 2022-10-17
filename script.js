@@ -224,7 +224,7 @@ async function makeFiveDayReport() {
 
   const fiveDay = await fetch(fiveDayURL, {mode: 'cors'});
   const results = await fiveDay.json();
-  console.log(results);
+  // console.log(results);
   // postFiveDay(results);
   fiveDayInfo(results);
 }
@@ -242,35 +242,25 @@ async function geoCode() {
 }
 
 function fiveDayInfo(rep) {
-  let day2 = {
-    day: "Tomorrow",
-    conditions: `${rep.daily[1].weather[0].description}`,
-    "High temp": `${rep.daily[1].temp.max}`,
-    "Low temp": `${rep.daily[1].temp.max}`
+  const makeDay = (day, conditions, highTemp, lowTemp) => {
+    return {day, conditions, highTemp, lowTemp};
   }
 
-  let day3 = {
-    day: "Day 3",
-    conditions: `${rep.daily[2].weather[0].description}`,
-    "High temp": `${rep.daily[2].temp.max}`,
-    "Low temp": `${rep.daily[2].temp.max}`
-  }
+  let day2 = makeDay("Tomorrow", `${rep.daily[1].weather[0].description}`, 
+    tempConvertKtoF(rep.daily[1].temp.max), tempConvertKtoF(rep.daily[1].temp.min));
 
-  let day4 = {
-    day: "Day 4",
-    conditions: `${rep.daily[3].weather[0].description}`,
-    "High temp": `${rep.daily[3].temp.max}`,
-    "Low temp": `${rep.daily[3].temp.max}`
-  }
-  let day5 = {
-    day: "Day 5",
-    conditions: `${rep.daily[4].weather[0].description}`,
-    "High temp": `${rep.daily[4].temp.max}`,
-    "Low temp": `${rep.daily[4].temp.max}`
-  }
+  let day3 = makeDay("Day 3", `${rep.daily[2].weather[0].description}`, 
+  tempConvertKtoF(rep.daily[2].temp.max), tempConvertKtoF(rep.daily[2].temp.min));
+
+  let day4 = makeDay("Day 4", `${rep.daily[3].weather[0].description}`, 
+  tempConvertKtoF(rep.daily[3].temp.max), tempConvertKtoF(rep.daily[3].temp.min));
+
+  let day5 = makeDay("Day 5", `${rep.daily[4].weather[0].description}`, 
+  tempConvertKtoF(rep.daily[4].temp.max), tempConvertKtoF(rep.daily[4].temp.min));
+
   // console.log(day2, day3, day4, day5);
   fiveDayReport.push(day2, day3, day4, day5);
-  // console.log(fiveDayReport);
+  // console.log(fiveDayReport[1].conditions);
   postFiveDay();
 }
 
@@ -278,8 +268,22 @@ function postFiveDay() {
   fiveDayContainer.innerHTML = "";
   for (let i = 0; i < 4; i++) {
     let dayEntry = document.createElement('div');
-    dayEntry.textContent = fiveDayReport[i];
     fiveDayContainer.appendChild(dayEntry);
+    let dayName = document.createElement('p');
+    let dayCond = document.createElement('p');
+    let dayHigh = document.createElement('p');
+    let dayLow = document.createElement('p');
+
+    dayName.textContent = `${fiveDayReport[i].day}`;
+    dayCond.textContent = `${fiveDayReport[i].conditions}`;
+    dayHigh.textContent = `${fiveDayReport[i].highTemp}${degSymbol}F`;
+    dayLow.textContent = `${fiveDayReport[i].lowTemp}${degSymbol}F`;
+
+    dayEntry.appendChild(dayName);
+    dayEntry.appendChild(dayCond);
+    dayEntry.appendChild(dayHigh);
+    dayEntry.appendChild(dayLow);
+    // console.log(fiveDayReport[1].conditions);
   }
 }
 
@@ -287,13 +291,3 @@ const fiveDayBtn = document.getElementById('five-day');
 fiveDayBtn.addEventListener('click', () => {
   geoCode().then(() => makeFiveDayReport());
 })
-
-/*
-Geocoding call:
-`http://api.openweathermap.org/geo/1.0/direct?q=<LOCATION>&limit=5&appid=25c6b8239ec277d75611f85f42054af6`
-
-One call by call:
-`https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={part}&appid=25c6b8239ec277d75611f85f42054af6`
-
-Notes: posting the five day report in object form isnt working. Search a city to see.
-*/
