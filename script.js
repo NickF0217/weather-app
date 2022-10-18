@@ -292,12 +292,3 @@ const fiveDayBtn = document.getElementById('five-day');
 fiveDayBtn.addEventListener('click', () => {
   geoCode().then(() => makeFiveDayReport());
 })
-
-function styleFiveDay(x) {
-  if (x == 'clear sky' || x == 'few clouds' || x == 'scattered clouds') {
-    fiveDayContainer.style.backgroundColor = "var(--sunny)";
-  }
-  else {
-    fiveDayContainer.style.backgroundColor = "var(--cloudy)";
-  }
-}
