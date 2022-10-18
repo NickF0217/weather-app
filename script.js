@@ -250,13 +250,13 @@ function fiveDayInfo(rep) {
     tempConvertKtoF(rep.daily[1].temp.max), tempConvertKtoF(rep.daily[1].temp.min));
 
   let day3 = makeDay("Day 3", `${rep.daily[2].weather[0].description}`, 
-  tempConvertKtoF(rep.daily[2].temp.max), tempConvertKtoF(rep.daily[2].temp.min));
+    tempConvertKtoF(rep.daily[2].temp.max), tempConvertKtoF(rep.daily[2].temp.min));
 
   let day4 = makeDay("Day 4", `${rep.daily[3].weather[0].description}`, 
-  tempConvertKtoF(rep.daily[3].temp.max), tempConvertKtoF(rep.daily[3].temp.min));
+    tempConvertKtoF(rep.daily[3].temp.max), tempConvertKtoF(rep.daily[3].temp.min));
 
   let day5 = makeDay("Day 5", `${rep.daily[4].weather[0].description}`, 
-  tempConvertKtoF(rep.daily[4].temp.max), tempConvertKtoF(rep.daily[4].temp.min));
+    tempConvertKtoF(rep.daily[4].temp.max), tempConvertKtoF(rep.daily[4].temp.min));
 
   // console.log(day2, day3, day4, day5);
   fiveDayReport.push(day2, day3, day4, day5);
@@ -269,15 +269,16 @@ function postFiveDay() {
   for (let i = 0; i < 4; i++) {
     let dayEntry = document.createElement('div');
     fiveDayContainer.appendChild(dayEntry);
+    dayEntry.className = "day-entry";
     let dayName = document.createElement('p');
     let dayCond = document.createElement('p');
     let dayHigh = document.createElement('p');
     let dayLow = document.createElement('p');
 
     dayName.textContent = `${fiveDayReport[i].day}`;
-    dayCond.textContent = `${fiveDayReport[i].conditions}`;
-    dayHigh.textContent = `${fiveDayReport[i].highTemp}${degSymbol}F`;
-    dayLow.textContent = `${fiveDayReport[i].lowTemp}${degSymbol}F`;
+    dayCond.textContent = capitalizeStr(fiveDayReport[i].conditions);
+    dayHigh.textContent = `High: ${fiveDayReport[i].highTemp}${degSymbol}F`;
+    dayLow.textContent = `Low: ${fiveDayReport[i].lowTemp}${degSymbol}F`;
 
     dayEntry.appendChild(dayName);
     dayEntry.appendChild(dayCond);
@@ -291,3 +292,12 @@ const fiveDayBtn = document.getElementById('five-day');
 fiveDayBtn.addEventListener('click', () => {
   geoCode().then(() => makeFiveDayReport());
 })
+
+function styleFiveDay(x) {
+  if (x == 'clear sky' || x == 'few clouds' || x == 'scattered clouds') {
+    fiveDayContainer.style.backgroundColor = "var(--sunny)";
+  }
+  else {
+    fiveDayContainer.style.backgroundColor = "var(--cloudy)";
+  }
+}
