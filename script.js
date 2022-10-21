@@ -171,24 +171,29 @@ function styleReport(x, y) {
   if (x == "Clear") {
     reportSection.style.backgroundColor = "var(--sunny)";
     cityNameContainer.style.backgroundColor = "var(--sunny)";
+    tempSection.style.backgroundColor = "var(--sunny)";
   }
   else if (x == "Clouds") {
     if (y == "Few clouds" || y == "Scattered clouds") {
       reportSection.style.backgroundColor = "var(--sunny)";
       cityNameContainer.style.backgroundColor = "var(--sunny)";
+      tempSection.style.backgroundColor = "var(--sunny)"
     }
     else if (y == "Broken clouds" || y == "Overcast clouds") {
       reportSection.style.backgroundColor = "var(--cloudy)";
       cityNameContainer.style.backgroundColor = "var(--cloudy)";
+      tempSection.style.backgroundColor = "var(--cloudy)";
     }
   }
   else if (x == "Rain" || x == "Thunderstorm" || x == "Drizzle" || x == "Snow" || x == "Mist") {
     reportSection.style.backgroundColor = "var(--cloudy)";
     cityNameContainer.style.backgroundColor = "var(--cloudy)";
+    tempSection.style.backgroundColor = "var(--cloudy)";
   }
   else {
     reportSection.style.backgroundColor = 'var(--cloudy)';
     cityNameContainer.style.backgroundColor = 'var(--cloudy)';
+    tempSection.style.backgroundColor = "var(--cloudy)";
     reportSection.style.color = 'white';
     cityNameContainer.style.color = 'white';
   }
