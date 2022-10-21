@@ -10,6 +10,7 @@ const icon = document.getElementById('icon');
 const tempBtn = document.getElementById('temp-change');
 const fiveDayContainer = document.getElementById('fd-container');
 const fiveDayTests = document.getElementsByClassName('test5d');
+const tempSection = document.getElementById('temp-section');
 
 let baseURL1 = `http://api.openweathermap.org/data/2.5/weather?q=`;
 let baseURL2 = '&APPID=25c6b8239ec277d75611f85f42054af6'
@@ -30,16 +31,22 @@ function tempStatSwitch() {
 
 function changeTemp() {
   if (tempStatus === 'fahrenheit') {
-    report.temperature = `${tempConvertKtoC(rawTemp)}${degSymbol}C`;
+    // report.temperature = `${tempConvertKtoC(rawTemp)}${degSymbol}C`;
+    temp = tempConvertKtoC(rawTemp);
+    tempSection.innerHTML = "";
+    tempSection.innerHTML = `${temp}${degSymbol}C`;
   } else {
-    report.temperature = `${tempConvertKtoF(rawTemp)}${degSymbol}F`;
+    // report.temperature = `${tempConvertKtoF(rawTemp)}${degSymbol}F`;
+    temp = tempConvertKtoF(rawTemp);
+    tempSection.innerHTML = "";
+    tempSection.innerHTML = `${temp}${degSymbol}F`;
   }
 }
 
 tempBtn.addEventListener('click', () => {
   changeTemp();
   tempStatSwitch();
-  makeWeatherReport(searchbar.value)
+  // makeWeatherReport(searchbar.value)
 })
 
 function tempConvertKtoC(k) {
@@ -94,6 +101,9 @@ async function makeWeatherReport(loc) {
       temp = `${tempConvertKtoC(rawTemp)}${degSymbol}C`;
     } 
 
+    tempSection.innerHTML = "";
+    tempSection.innerHTML = temp;
+
     let humid = results.main.humidity;
 
     let highTempRaw = results.main.temp_max;
@@ -118,7 +128,7 @@ async function makeWeatherReport(loc) {
     let condStyle = results.weather[0].main;
       
     report.push(`Conditions: ${conditions}`, 
-    `Temperature: ${temp}`,
+    // `Temperature: ${temp}`,
     `Humidity: ${humid}%`,
     `Low: ${lowTemp}`,
     `High: ${highTemp}`,
@@ -128,8 +138,8 @@ async function makeWeatherReport(loc) {
     postReport(report);
     styleReport(condStyle, conditions);
     reportIcon(condStyle, conditions);
-    await geoCode();
-    makeFiveDayReport();
+    // await geoCode();
+    // makeFiveDayReport();
   }
   catch(err) {
     alert("No match found");
