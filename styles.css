@@ -45,12 +45,6 @@ h4 {
     grid-template-columns: 30vw 40vw 30vw;
 }
 
-.temp-section {
-    font-size: 28pt;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
-    margin-bottom: 0px;
-}
-
 .report-section, .city-name {
     grid-column: 2 / 3;
     display: flex;
@@ -77,6 +71,29 @@ h4 {
     border-radius: 20px 20px 0 0;
     flex-direction: column-reverse;
 }
+
+.temp-section {
+    font-size: 28pt;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    margin-bottom: 0px;
+}
+
+.high-low-temp {
+    font-size: 18pt;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    margin-bottom: 0px;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    /* align-items: center; */
+    /* margin-bottom: -20px; */
+}
+.high-temp-section {
+    margin-bottom: -15px;
+}
+/*.low-temp-section {
+    margin-top: -35px;
+} */
 
 .icon {
     height: 80px;

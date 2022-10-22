@@ -4,7 +4,6 @@ const searchBtn = document.getElementById('search-btn');
 const degSymbol = '\u00B0';
 const reportContainer = document.getElementById('container');
 const cityNameContainer = document.getElementById('city-name');
-// const locationName = document.createElement('h3');
 const locationName = document.getElementById('location-name');
 const reportSection = document.getElementById('report-section');
 const icon = document.getElementById('icon');
@@ -12,6 +11,8 @@ const tempBtn = document.getElementById('temp-change');
 const fiveDayContainer = document.getElementById('fd-container');
 const fiveDayTests = document.getElementsByClassName('test5d');
 const tempSection = document.getElementById('temp-section');
+const highTempSection = document.getElementById('high-temp-section');
+const lowTempSection = document.getElementById('low-temp-section');
 
 let baseURL1 = `http://api.openweathermap.org/data/2.5/weather?q=`;
 let baseURL2 = '&APPID=25c6b8239ec277d75611f85f42054af6'
@@ -21,6 +22,8 @@ let report = [];
 let fiveDayReport = [];
 let tempStatus = 'fahrenheit';
 let rawTemp;
+let highTempRaw;
+let lowTempRaw;
 
 function tempStatSwitch() {
   if (tempStatus === 'fahrenheit') {
@@ -34,13 +37,27 @@ function changeTemp() {
   if (tempStatus === 'fahrenheit') {
     // report.temperature = `${tempConvertKtoC(rawTemp)}${degSymbol}C`;
     temp = tempConvertKtoC(rawTemp);
+    highTemp = tempConvertKtoC(highTempRaw);
+    lowTemp = tempConvertKtoC(lowTempRaw);
+
     tempSection.innerHTML = "";
     tempSection.innerHTML = `${temp}${degSymbol}C`;
+    highTempSection.innerHTML = '';
+    highTempSection.textContent = `High: ${highTemp}${degSymbol}C`;
+    lowTempSection.innerHTML = '';
+    lowTempSection.innerHTML = `Low: ${lowTemp}${degSymbol}C`;
   } else {
     // report.temperature = `${tempConvertKtoF(rawTemp)}${degSymbol}F`;
     temp = tempConvertKtoF(rawTemp);
+    highTemp = tempConvertKtoF(highTempRaw);
+    lowTemp = tempConvertKtoF(lowTempRaw);
+
     tempSection.innerHTML = "";
     tempSection.innerHTML = `${temp}${degSymbol}F`;
+    highTempSection.innerHTML = '';
+    highTempSection.textContent = `High: ${highTemp}${degSymbol}F`;
+    lowTempSection.innerHTML = '';
+    lowTempSection.innerHTML = `Low: ${lowTemp}${degSymbol}F`;
   }
 }
 
@@ -107,7 +124,7 @@ async function makeWeatherReport(loc) {
 
     let humid = results.main.humidity;
 
-    let highTempRaw = results.main.temp_max;
+    highTempRaw = results.main.temp_max;
     let highTemp;
     if (tempStatus === 'fahrenheit') {
       highTemp = `${tempConvertKtoF(highTempRaw)}${degSymbol}F`;
@@ -115,7 +132,10 @@ async function makeWeatherReport(loc) {
       highTemp = `${tempConvertKtoC(highTempRaw)}${degSymbol}C`;
     } 
 
-    let lowTempRaw = results.main.temp_min;
+    highTempSection.innerHTML = '';
+    highTempSection.textContent = `High: ${highTemp}`;
+
+    lowTempRaw = results.main.temp_min;
     let lowTemp;
     if (tempStatus === 'fahrenheit') {
       lowTemp = `${tempConvertKtoF(lowTempRaw)}${degSymbol}F`;
@@ -123,16 +143,19 @@ async function makeWeatherReport(loc) {
       lowTemp = `${tempConvertKtoC(lowTempRaw)}${degSymbol}C`;
     } 
 
+    lowTempSection.innerHTML = '';
+    lowTempSection.innerHTML = `Low: ${lowTemp}`;
+
     let windSpd = results.wind.speed;
     windSpd = (windSpd * 2.2369).toFixed();
 
     let condStyle = results.weather[0].main;
       
-    report.push(`Conditions: ${conditions}`, 
+    report.push(`${conditions}`, 
     // `Temperature: ${temp}`,
     `Humidity: ${humid}%`,
-    `Low: ${lowTemp}`,
-    `High: ${highTemp}`,
+    // `Low: ${lowTemp}`,
+    // `High: ${highTemp}`,
     `Wind: ${windSpd} mph`);
 
     // console.table(report)
