@@ -4,7 +4,8 @@ const searchBtn = document.getElementById('search-btn');
 const degSymbol = '\u00B0';
 const reportContainer = document.getElementById('container');
 const cityNameContainer = document.getElementById('city-name');
-const locationName = document.createElement('h3');
+// const locationName = document.createElement('h3');
+const locationName = document.getElementById('location-name');
 const reportSection = document.getElementById('report-section');
 const icon = document.getElementById('icon');
 const tempBtn = document.getElementById('temp-change');
@@ -171,29 +172,24 @@ function styleReport(x, y) {
   if (x == "Clear") {
     reportSection.style.backgroundColor = "var(--sunny)";
     cityNameContainer.style.backgroundColor = "var(--sunny)";
-    tempSection.style.backgroundColor = "var(--sunny)";
   }
   else if (x == "Clouds") {
     if (y == "Few clouds" || y == "Scattered clouds") {
       reportSection.style.backgroundColor = "var(--sunny)";
       cityNameContainer.style.backgroundColor = "var(--sunny)";
-      tempSection.style.backgroundColor = "var(--sunny)"
     }
     else if (y == "Broken clouds" || y == "Overcast clouds") {
       reportSection.style.backgroundColor = "var(--cloudy)";
       cityNameContainer.style.backgroundColor = "var(--cloudy)";
-      tempSection.style.backgroundColor = "var(--cloudy)";
     }
   }
   else if (x == "Rain" || x == "Thunderstorm" || x == "Drizzle" || x == "Snow" || x == "Mist") {
     reportSection.style.backgroundColor = "var(--cloudy)";
     cityNameContainer.style.backgroundColor = "var(--cloudy)";
-    tempSection.style.backgroundColor = "var(--cloudy)";
   }
   else {
     reportSection.style.backgroundColor = 'var(--cloudy)';
     cityNameContainer.style.backgroundColor = 'var(--cloudy)';
-    tempSection.style.backgroundColor = "var(--cloudy)";
     reportSection.style.color = 'white';
     cityNameContainer.style.color = 'white';
   }
