@@ -9,7 +9,6 @@ const reportSection = document.getElementById('report-section');
 const icon = document.getElementById('icon');
 const tempBtn = document.getElementById('temp-change');
 const fiveDayContainer = document.getElementById('fd-container');
-const fiveDayTests = document.getElementsByClassName('test5d');
 const tempSection = document.getElementById('temp-section');
 const highTempSection = document.getElementById('high-temp-section');
 const lowTempSection = document.getElementById('low-temp-section');
@@ -64,7 +63,6 @@ function changeTemp() {
 tempBtn.addEventListener('click', () => {
   changeTemp();
   tempStatSwitch();
-  // makeWeatherReport(searchbar.value)
 })
 
 function tempConvertKtoC(k) {
@@ -78,18 +76,6 @@ function tempConvertKtoF(k) {
   f = f.toFixed(1);
   return f;
 }
-
-// function tempConvertFtoC(f) {
-//   let c = (f - 32)/1.8;
-//   c = c.toFixed(1);
-//   return c;
-// }
-
-// function tempConvertCtoF(c) {
-//   let f = c * (9/5) + 32;
-//   f = f.toFixed(1);
-//   return f;
-// }
 
 function capitalizeStr(string) {
   string = string.charAt(0).toUpperCase() + string.slice(1);
@@ -144,7 +130,7 @@ async function makeWeatherReport(loc) {
     } 
 
     lowTempSection.innerHTML = '';
-    lowTempSection.innerHTML = `Low: ${lowTemp}`;
+    lowTempSection.textContent = `Low: ${lowTemp}`;
 
     let windSpd = results.wind.speed;
     windSpd = (windSpd * 2.2369).toFixed();
