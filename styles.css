@@ -83,14 +83,20 @@ h4 {
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     margin-bottom: 0px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     /* justify-content: space-between; */
     /* align-items: center; */
-    /* margin-bottom: -20px; */
+    margin-bottom: -20px;
+    text-align: center;
 }
-.high-temp-section {
+
+.high-low-temp > p {
+    padding-bottom: -50px;
+}
+
+/* .high-temp-section {
     margin-bottom: -15px;
-}
+} */
 /*.low-temp-section {
     margin-top: -35px;
 } */
